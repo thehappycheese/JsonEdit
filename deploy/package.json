@@ -1,0 +1,13 @@
+{
+  "name": "JsonEdit",
+  "main": "index.htm",
+  "node-js": false,
+  "node-remote": "<local>",
+  "window": {
+    "title": "node-webkit demo",
+    "toolbar": true,
+    "frame": true,
+    "min_width": 600,
+    "min_height": 400
+  }
+}
