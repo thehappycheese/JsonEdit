@@ -3,91 +3,121 @@
 	<head>
 		<script src="JSONeditor.js"></script>
 		<script src="ace/ace.js"  charset="utf-8"></script>
-		<script>
-		var t;
-		var ed;
-		onload=function(){
-			JSONeditor.start('tree','jform',{test:2},false)
-			Opera=(navigator.userAgent.toLowerCase().indexOf("opera")!=-1)
-			Safari=(navigator.userAgent.toLowerCase().indexOf("safari")!=-1)
-			Explorer=(document.all && (!(Opera || Safari)))
-			Explorer7=(Explorer && (navigator.userAgent.indexOf("MSIE 7.0")>=0))
-			
-			
-			
-			
-			t = document.querySelector("#jvalue");
-			
-			t.style.display="none";
-			window.editor = ace.edit("jeditor");
-			//editor.setTheme("ace/theme/monokai");
-			editor.getSession().setMode("ace/mode/javascript");
-			
-			editor.getSession().on('change', function () {
-				t.value =editor.getSession().getValue();
-			});
-			
-			editor.getSession().setValue(t.value);
-			editor.setOptions({wrap:true})
-			
-		}
-		function textarea_changed(){
-			try{
-				editor.getSession().setValue(t.value);
-			}catch(e){
-				
-			}
-		}
-		function domode(e){
-			editor.getSession().setMode(e.target.value);
-		}
-		</script>
+		<script src="main.js"></script>
 
 		<style>
 
 body{
+	height:100%;
+	display:flex;
+	padding:0;
+	margin:0;
 }
 .menu{
 	height:30px;
 	margin:5px;
 	border:1px solid grey;
 	padding:10px;
+	display:flex;
+	justify-content:space-around;
+	align-content:space-around;
 }
 .main{
 	display:flex;
+	flex: 1 0 300px;
+	padding:5px;
 }
 #tree{
 	overflow-y:scroll;
 	flex: 0.5 0 300px;
+	margin-right:5px;
 }
 #jform{
+	
+}
+#formcol{
+	flex: 1 0 200px;
+	
 }
 #jeditor{
 	width:100%;
-	height:400px;
+	height:300px;
+}
+#outer{
+	flex: 1 1 1000px;
+	display:flex;
+	flex-direction:column;
 }
 		</style>
 
 	</head>
 	<body>
-		<div class="menu">
-			<input id="fin" type="file"/>
-			<button>Save</button>
-			<button>Close</button>
-			<a style="font-family:Verdana,Arial,Helvetica;font-size:13px" href="http://www.thomasfrank.se/json_editor.html" target="_blank">Thomas Frank.se - Help/info</a>
-		</div>
-		<div class="main">
-			<div  id="tree"></div>
-			<div style="flex: 1 0 500px;">
-				<div>
-					<select onchange="domode(event)">
-						<option value="ace/mode/javascript">JS</option>
-						<option value="ace/mode/html">HTML</option>
-						<option value="ace/mode/text">text</option>
-					</select>
+		<div id="outer">
+			<div class="menu">
+				<input id="saveasf" type="file" nwsaveas style="display:none;"/>
+				<input id="openf" type="file" style="display:none;" onchange="fopen(event)"/>
+				<button onclick="document.querySelector('#openf').click()">Open</button>
+				<button onclick="dosave(event)">Save</button>
+				<button onclick="document.querySelector('#saveasf').click()">Save As</button>
+				<button onclick="doclose(event)">Close</button>
+				<a style="font-family:Verdana,Arial,Helvetica;font-size:13px;line-height:26px;" href="http://www.thomasfrank.se/json_editor.html" target="_blank">Thomas Frank.se - Help/info</a>
+			</div>
+			<div class="main">
+				<div  id="tree"></div>
+				<div id="formcol" style="">
+					<div>
+						<select onchange="domode(event)">
+							<option value="ace/mode/javascript">JS</option>
+							<option value="ace/mode/html">HTML</option>
+							<option value="ace/mode/text">text</option>
+						</select>
+					</div>
+					<div id="jeditor"></div>
+					<div  id="jform">
+						<form id="jsonform" name="jsoninput" onsubmit="return treeBuilder.jsonChange(this)">
+							<div id="jExamples">Load an example:
+								<select name="jloadExamples" onchange="JSONeditor.loadExample(this.value)">
+									<option value="0">None/empty</option>
+									<option value="1">Employee data</option>
+									<option value="2">Sample Konfabulator Widget</option>
+									<option value="3">Member data</option>
+									<option value="4">A menu system</option>
+									<option value="5">The source code of this JSON editor</option>
+								</select>
+							</div>
+							<input name="jlabel" type="text" value="" style="width:100%" />
+							<textarea id="jvalue" name="jvalue" rows="10" cols="50" style="width:400px"></textarea>
+							<br />Data type: <select onchange="treeBuilder.changeJsonDataType(this.value,this.parentNode)" name="jtype">
+								<option value="object">object</option>
+								<option value="array">array</option>
+								<option value="function">function</option>
+								<option value="string">string</option>
+								<option value="number">number</option>
+								<option value="boolean">boolean</option>
+								<option value="null">null</option>
+								<option value="undefined">undefined</option>
+							</select>
+							<br />
+							<input name="orgjlabel" type="hidden" value="" size="50" style="width:300px" />
+							
+							<input onfocus="this.blur()" type="submit" value="Save" />
+							<div style="display:inline-block;width:1em;"></div>
+							<input name="jAddChild" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonAddChild(this.parentNode)" value="Add child" /> 
+							<input name="jAddSibling" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonAddSibling(this.parentNode)" value="Add sibling" />
+							<div style="display:inline-block;width:1em;"></div>
+							<input name="jRemove" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonRemove(this.parentNode)" value="Delete" /> 
+							<input name="jRename" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonRename(this.parentNode)" value="Rename" /> 
+							<input name="jCut" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonCut(this.parentNode)" value="Cut" /> 
+							<input name="jCopy" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonCopy(this.parentNode)" value="Copy" /> 
+							<input name="jPaste" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonPaste(this.parentNode)" value="Paste" />
+							<br />
+							<input type="checkbox" name="jbefore" />Add children first/siblings before<br />
+							<input type="checkbox" name="jPasteAsChild" />Paste as child on objects &amp; arrays<br />
+							<div id="jformMessage"></div>
+						</form>
+					
+					</div>
 				</div>
-				<div id="jeditor"></div>
-				<div  id="jform"></div>
 			</div>
 		</div>
 	</body>

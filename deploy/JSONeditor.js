@@ -36,7 +36,7 @@ JSONeditor={
 		var s=$(treeDivName).style
 		var f=$(formDivName)
 		var fs=f.style
-		f.innerHTML=this.formHTML
+		//f.innerHTML=this.formHTML
 		if(!showExamples){$('jExamples').style.display="none"}
 		fs.fontSize=s.fontSize="11px"
 		fs.fontFamily=s.fontFamily="Verdana,Arial,Helvetica,sans-serif"
