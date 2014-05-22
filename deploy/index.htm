@@ -29,19 +29,19 @@ body{
 }
 #tree{
 	overflow-y:scroll;
-	flex: 0.5 0 300px;
+	flex: 0.5 0 200px;
 	margin-right:5px;
 }
 #jform{
 	
 }
 #formcol{
-	flex: 1 0 200px;
+	flex: 1 0.1 300px;
 	
 }
 #jeditor{
 	width:100%;
-	height:300px;
+	height:350px;
 }
 #outer{
 	flex: 1 1 1000px;
@@ -54,10 +54,10 @@ body{
 	<body>
 		<div id="outer">
 			<div class="menu">
-				<input id="saveasf" type="file" nwsaveas style="display:none;"/>
-				<input id="openf" type="file" style="display:none;" onchange="fopen(event)"/>
+				<input id="saveasf" type="file" nwsaveas style="display:none;" onchange="dosaveas(event)"/>
+				<input id="openf" type="file" style="display:none;" onchange="doopen(event)"/>
 				<button onclick="document.querySelector('#openf').click()">Open</button>
-				<button onclick="dosave(event)">Save</button>
+				<button onclick="document.querySelector('#fsavebut').click()">Save</button>
 				<button onclick="document.querySelector('#saveasf').click()">Save As</button>
 				<button onclick="doclose(event)">Close</button>
 				<a style="font-family:Verdana,Arial,Helvetica;font-size:13px;line-height:26px;" href="http://www.thomasfrank.se/json_editor.html" target="_blank">Thomas Frank.se - Help/info</a>
@@ -100,7 +100,7 @@ body{
 							<br />
 							<input name="orgjlabel" type="hidden" value="" size="50" style="width:300px" />
 							
-							<input onfocus="this.blur()" type="submit" value="Save" />
+							<input id="fsavebut" onfocus="this.blur()" type="submit" value="Save" />
 							<div style="display:inline-block;width:1em;"></div>
 							<input name="jAddChild" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonAddChild(this.parentNode)" value="Add child" /> 
 							<input name="jAddSibling" onfocus="this.blur()" type="button" onclick="treeBuilder.jsonAddSibling(this.parentNode)" value="Add sibling" />

@@ -316,7 +316,7 @@ JSONeditor.treeBuilder={
 	},
 	setJsonMessage:function(x){
 		this.$('jformMessage').innerHTML=x
-		setTimeout("treeBuilder.$('jformMessage').innerHTML=''",1500)
+		setTimeout("treeBuilder.$('jformMessage').innerHTML=''",3000)
 	},
 	changeJsonDataType:function(x,f){
 		this.jTypeChanged=true
@@ -393,6 +393,7 @@ JSONeditor.treeBuilder={
 			if(remove){l=""}
 			this.setJsonMessage(remove?'Deleted!':rename?'Renamed!':'Saved!')
 			if(!remove){this.jsonResponder(l)}
+			dosave()
   		}
 		catch(err){
 			alert(err+"\n\n"+"Save error!")
