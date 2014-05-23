@@ -1,0 +1,18 @@
+
+
+
+#preview h1,h2,h3{
+	font-family:sans-serif;
+	color:darkblue;
+	margin: 0 5px;
+	margin-bottom:
+}
+#preview p{
+	margin:0;
+	padding:0;
+	margin-bottom:5px;
+}
+#preview table td{
+	border:1px solid grey;
+	width:100%;
+}

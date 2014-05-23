@@ -4,7 +4,7 @@
 		<script src="JSONeditor.js"></script>
 		<script src="ace/ace.js"  charset="utf-8"></script>
 		<script src="main.js"></script>
-
+		<link rel="stylesheet" type="text/css" href="preview_style.css"/>
 		<style>
 
 body{
@@ -14,13 +14,13 @@ body{
 	margin:0;
 }
 .menu{
-	height:30px;
 	margin:5px;
 	border:1px solid grey;
-	padding:10px;
+	padding:5px;
 	display:flex;
 	justify-content:space-around;
 	align-content:space-around;
+	flex: 0 0 25px;
 }
 .main{
 	display:flex;
@@ -38,6 +38,12 @@ body{
 #formcol{
 	flex: 1 0.1 300px;
 	
+}
+#preview{
+	flex: 1 0.1 300px;
+	width:100%;
+	margin-left:5px;
+	border:1px solid grey;
 }
 #jeditor{
 	width:100%;
@@ -66,7 +72,7 @@ body{
 				<div  id="tree"></div>
 				<div id="formcol" style="">
 					<div>
-						<select onchange="domode(event)">
+						<select id="acemodesel" onchange="domode(event)">
 							<option value="ace/mode/javascript">JS</option>
 							<option value="ace/mode/html">HTML</option>
 							<option value="ace/mode/text">text</option>
@@ -117,6 +123,9 @@ body{
 						</form>
 					
 					</div>
+				</div>
+				<div id="preview">
+					<p>test</p>
 				</div>
 			</div>
 		</div>
